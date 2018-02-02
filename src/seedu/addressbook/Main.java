@@ -82,13 +82,20 @@ public class Main {
     private void runCommandLoopUntilExitCommand() {
         Command command;
         do {
-            String userCommandText = ui.getUserCommand();
-            command = new Parser().parseCommand(userCommandText);
+            command = readCommand();
             CommandResult result = executeCommand(command);
             recordResult(result);
             ui.showResultToUser(result);
 
         } while (!ExitCommand.isExit(command));
+    }
+
+    /** Reads the user command and returns a parsed version of it **/
+    private Command readCommand() {
+        Command command;
+        String userCommandText = ui.getUserCommand();
+        command = new Parser().parseCommand(userCommandText);
+        return command;
     }
 
     /** Updates the {@link #lastShownList} if the result contains a list of Persons. */
