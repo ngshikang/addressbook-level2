@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.Collections;
 
 import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.ReadOnlyPerson;
@@ -105,6 +106,13 @@ public class AddressBook {
     public void clear() {
         allPersons.clear();
         allTags.clear();
+    }
+
+    /**
+     * Sorts all persons in the address book at the time of the call.
+     */
+    public void sort(){
+        allPersons.sort();
     }
 
     /**
