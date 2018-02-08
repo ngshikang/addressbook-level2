@@ -23,7 +23,7 @@
   list
 
 ##########################################################
-# test add person command, setup state for futuer tests
+# test add person command, setup state for future tests
 ##########################################################
 
   # should catch invalid args format
@@ -106,11 +106,21 @@
   # find multiple with some keywords
   find Charlie Betsy
 
+
+##########################################################
+# test sort persons command
+##########################################################
+
+  # should show new list of persons which is now sorted alphabetically
+  sort
+
+
 ##########################################################
 # test delete person command
 ##########################################################
 
 # last active view: [1] betsy [2] charlie
+find Charlie Betsy
 
   # should catch invalid args format
   delete
@@ -147,6 +157,13 @@
   # clears all
   clear
   list
+
+
+##########################################################
+# test add command with postal code
+##########################################################
+
+add Fardam Brown p/111111 e/fardam@gmail.com a/111, alpha street pc/119077
 
 ##########################################################
 # test exit command
