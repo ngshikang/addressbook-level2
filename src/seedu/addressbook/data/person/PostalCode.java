@@ -10,7 +10,7 @@ import java.net.URL;
 import java.net.URLConnection;
 
 /**
- * Represents an PostalCode's postal code in the PostalCode book.
+ * Represents an PostalCode's postal code in the address book.
  * Guarantees: immutable; is valid as declared in {@link #isValidPostalCode(String)}
  */
 public class PostalCode {
@@ -42,7 +42,7 @@ public class PostalCode {
     }
 
     /**
-     * Returns true if a given string is a valid person PostalCode.
+     * Returns true if a given string is a valid PostalCode.
      */
     public static boolean isValidPostalCode(String test) {
         return test.matches(POSTAL_CODE_VALIDATION_REGEX);
