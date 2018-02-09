@@ -28,6 +28,13 @@ public class StorageFile {
 
     /** Default file path used if the user doesn't provide the file name. */
     public static final String DEFAULT_STORAGE_FILEPATH = "addressbook.xml";
+    public static final String MESSAGE_ERROR_STORAGE_CONVERSION = "Error converting address book into storage format";
+    public static final String MESSAGE_ERROR_WRITING_TO_FILE = "Error writing to file: ";
+    public static final String MESSAGE_ERROR_SUGGEST_DIFF_FILE = "so try using a different file to which you have edit access.";
+    public static final String MESSAGE_ERROR_INVALID_VALUES = "File contains illegal data values; data type constraints not met";
+    public static final String MESSAGE_ERROR_CANNOT_PARSE_FORMAT = "Error parsing file data format";
+    public static final String MESSAGE_ERROR_FILE_NOT_FOUND = "A non-existent file scenario is already handled earlier.";
+    public static final String MESSAGE_ERROR_MISSING_ELEMENTS = "File data missing some elements";
 
     /* Note: Note the use of nested classes below.
      * More info https://docs.oracle.com/javase/tutorial/java/javaOO/nested.html
@@ -43,11 +50,20 @@ public class StorageFile {
     }
 
     /**
-     * Signals that some error has occured while trying to convert and read/write data between the application
+     * Signals that some error has occurred while trying to convert and read/write data between the application
      * and the storage file.
      */
     public static class StorageOperationException extends Exception {
         public StorageOperationException(String message) {
+            super(message);
+        }
+    }
+
+    /**
+     * Signals that some error has occurred while trying to write data to the storage file.
+     */
+    public static class StorageOperationReadOnlyException extends StorageOperationException {
+        public StorageOperationReadOnlyException(String message) {
             super(message);
         }
     }
@@ -106,12 +122,11 @@ public class StorageFile {
             marshaller.marshal(toSave, fileWriter);
 
         } catch (IOException ioe) {
-            throw new StorageOperationException("Error writing to file: " + path);
+            throw new StorageOperationReadOnlyException(MESSAGE_ERROR_WRITING_TO_FILE + path + MESSAGE_ERROR_SUGGEST_DIFF_FILE);
         } catch (JAXBException jaxbe) {
-            throw new StorageOperationException("Error converting address book into storage format");
+            throw new StorageOperationException(MESSAGE_ERROR_STORAGE_CONVERSION);
         }
     }
-
     /**
      * Loads data from this storage file.
      *
@@ -132,19 +147,19 @@ public class StorageFile {
             final AdaptedAddressBook loaded = (AdaptedAddressBook) unmarshaller.unmarshal(fileReader);
             // manual check for missing elements
             if (loaded.isAnyRequiredFieldMissing()) {
-                throw new StorageOperationException("File data missing some elements");
+                throw new StorageOperationException(MESSAGE_ERROR_MISSING_ELEMENTS);
             }
             return loaded.toModelType();
 
         } catch (FileNotFoundException fnfe) {
-            throw new AssertionError("A non-existent file scenario is already handled earlier.");
+            throw new AssertionError(MESSAGE_ERROR_FILE_NOT_FOUND);
         // other errors
         } catch (IOException ioe) {
-            throw new StorageOperationException("Error writing to file: " + path);
+            throw new StorageOperationException(MESSAGE_ERROR_WRITING_TO_FILE + path);
         } catch (JAXBException jaxbe) {
-            throw new StorageOperationException("Error parsing file data format");
+            throw new StorageOperationException(MESSAGE_ERROR_CANNOT_PARSE_FORMAT);
         } catch (IllegalValueException ive) {
-            throw new StorageOperationException("File contains illegal data values; data type constraints not met");
+            throw new StorageOperationException(MESSAGE_ERROR_INVALID_VALUES);
         }
     }
 
