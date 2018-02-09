@@ -11,8 +11,14 @@ public class Address {
     public static final String EXAMPLE = "123, some street";
     public static final String MESSAGE_ADDRESS_CONSTRAINTS = "Person addresses can be in any format";
     public static final String ADDRESS_VALIDATION_REGEX = ".+";
+    public static final String SEPARATOR_COMMA_SPACE = ", ";
 
     public final String value;
+    public Block blk;
+    public Street street;
+    public Unit unit;
+    public PostalCode pc;
+
     private boolean isPrivate;
 
     /**
@@ -23,10 +29,26 @@ public class Address {
     public Address(String address, boolean isPrivate) throws IllegalValueException {
         String trimmedAddress = address.trim();
         this.isPrivate = isPrivate;
-        if (!isValidAddress(trimmedAddress)) {
+        UpdateAddressComponents(trimmedAddress);
+        String reconstructedAddress = ReconstructAddressFromComponents();
+        if (!isValidAddress(reconstructedAddress)) {
             throw new IllegalValueException(MESSAGE_ADDRESS_CONSTRAINTS);
         }
-        this.value = trimmedAddress;
+        this.value = reconstructedAddress;
+    }
+
+    private String ReconstructAddressFromComponents() {
+        return this.blk.toString() + SEPARATOR_COMMA_SPACE +
+                    this.street.toString() + SEPARATOR_COMMA_SPACE +
+                    this.unit.toString() + SEPARATOR_COMMA_SPACE +
+                    this.pc.toString();
+    }
+
+    private void UpdateAddressComponents(String trimmedAddress) throws IllegalValueException {
+        this.blk = new Block(trimmedAddress.split(",")[0]);
+        this.street = new Street(trimmedAddress.split(",")[1]);
+        this.unit = new Unit(trimmedAddress.split(",")[2]);
+        this.pc = new PostalCode(trimmedAddress.split(",")[3]);
     }
 
     /**
