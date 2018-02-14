@@ -23,7 +23,7 @@
   list
 
 ##########################################################
-# test add person command, setup state for futuer tests
+# test add person command, setup state for future tests
 ##########################################################
 
   # should catch invalid args format
@@ -32,7 +32,7 @@
   add Valid Name p/12345 valid@email.butNoPrefix a/valid, address
   add Valid Name p/12345 e/valid@email.butNoAddressPrefix valid, address
   add Valid Name p/12345 e/valid@email.butNoTagPrefix a/valid, address t/goodTag noPrefixTag
-  
+
   # should catch invalid person data
   add []\[;] p/12345 e/valid@e.mail a/valid, address
   add Valid Name p/not_numbers e/valid@e.mail a/valid, address
@@ -106,11 +106,21 @@
   # find multiple with some keywords
   find Charlie Betsy
 
+
+##########################################################
+# test sort persons command
+##########################################################
+
+  # should show new list of persons which is now sorted alphabetically
+  sort
+
+
 ##########################################################
 # test delete person command
 ##########################################################
 
 # last active view: [1] betsy [2] charlie
+find Charlie Betsy
 
   # should catch invalid args format
   delete
@@ -147,6 +157,13 @@
   # clears all
   clear
   list
+
+
+##########################################################
+# test add command with postal code
+##########################################################
+
+add Fardam Brown p/111111 e/fardam@gmail.com a/111, alpha street pc/119077
 
 ##########################################################
 # test exit command
