@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.Collections;
 
 import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.ReadOnlyPerson;
@@ -108,6 +109,13 @@ public class AddressBook {
     }
 
     /**
+     * Sorts all persons in the address book at the time of the call.
+     */
+    public void sort(){
+        allPersons.sort();
+    }
+
+    /**
      * Returns a new UniquePersonList of all persons in the address book at the time of the call.
      */
     public UniquePersonList getAllPersons() {
@@ -125,7 +133,7 @@ public class AddressBook {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof AddressBook // instanceof handles nulls
-                        && this.allPersons.equals(((AddressBook) other).allPersons)
-                        && this.allTags.equals(((AddressBook) other).allTags));
+                && this.allPersons.equals(((AddressBook) other).allPersons)
+                && this.allTags.equals(((AddressBook) other).allTags));
     }
 }

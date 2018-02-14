@@ -123,6 +123,14 @@ public class UniquePersonList implements Iterable<Person> {
     }
 
     /**
+     * Sorts the list.
+     */
+    public void sort(){
+        Collections.sort(internalList);
+    }
+
+
+    /**
      * Clears all persons in list.
      */
     public void clear() {
@@ -138,6 +146,6 @@ public class UniquePersonList implements Iterable<Person> {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof UniquePersonList // instanceof handles nulls
-                        && this.internalList.equals(((UniquePersonList) other).internalList));
+                && this.internalList.equals(((UniquePersonList) other).internalList));
     }
 }
