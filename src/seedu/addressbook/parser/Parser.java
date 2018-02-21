@@ -57,7 +57,8 @@ public class Parser {
      */
     public static final Pattern BASIC_COMMAND_FORMAT = Pattern.compile("(?<commandWord>\\S+)(?<arguments>.*)");
 
-    public Parser() {}
+    public Parser() {
+    }
 
     /**
      * Parses user input into command for execution.
@@ -75,34 +76,25 @@ public class Parser {
         final String arguments = matcher.group("arguments");
 
         switch (commandWord) {
-
-            case AddCommand.COMMAND_WORD:
-                return prepareAdd(arguments);
-
-            case DeleteCommand.COMMAND_WORD:
-                return prepareDelete(arguments);
-
-            case ClearCommand.COMMAND_WORD:
-                return new ClearCommand();
-
-            case FindCommand.COMMAND_WORD:
-                return prepareFind(arguments);
-
-            case ListCommand.COMMAND_WORD:
-                return new ListCommand();
-
-            case ViewCommand.COMMAND_WORD:
-                return prepareView(arguments);
-
-            case ViewAllCommand.COMMAND_WORD:
-                return prepareViewAll(arguments);
-
-            case ExitCommand.COMMAND_WORD:
-                return new ExitCommand();
-
-            case HelpCommand.COMMAND_WORD: // Fallthrough
-            default:
-                return new HelpCommand();
+        case AddCommand.COMMAND_WORD:
+            return prepareAdd(arguments);
+        case DeleteCommand.COMMAND_WORD:
+            return prepareDelete(arguments);
+        case ClearCommand.COMMAND_WORD:
+            return new ClearCommand();
+        case FindCommand.COMMAND_WORD:
+            return prepareFind(arguments);
+        case ListCommand.COMMAND_WORD:
+            return new ListCommand();
+        case ViewCommand.COMMAND_WORD:
+            return prepareView(arguments);
+        case ViewAllCommand.COMMAND_WORD:
+            return prepareViewAll(arguments);
+        case ExitCommand.COMMAND_WORD:
+            return new ExitCommand();
+        case HelpCommand.COMMAND_WORD: // Fallthrough
+        default:
+            return new HelpCommand();
         }
     }
 
@@ -223,7 +215,7 @@ public class Parser {
      *
      * @param args arguments string to parse as index number
      * @return the parsed index number
-     * @throws ParseException if no region of the args string could be found for the index
+     * @throws ParseException        if no region of the args string could be found for the index
      * @throws NumberFormatException the args string region is not a valid number
      */
     private int parseArgsAsDisplayedIndex(String args) throws ParseException, NumberFormatException {

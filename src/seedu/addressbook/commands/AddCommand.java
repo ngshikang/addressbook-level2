@@ -51,14 +51,16 @@ public class AddCommand extends Command {
             tagSet.add(new Tag(tagName));
         }
 
-        PostalCode newPostalCode = new PostalCode(postalCode, isPostalCodePrivate);
+        PostalCode newPostalCode;
         try{
+            newPostalCode  = new PostalCode(postalCode, isPostalCodePrivate);
             if(newPostalCode!=null){
                 address = newPostalCode.retrieveMatchingAddress();
             }
-        }
-        catch(IOException e){
+        } catch(IOException e){
             e.printStackTrace();
+        } catch(IllegalValueException ive){
+            System.err.println(ive.getMessage());
         }
 
         this.toAdd = new Person(

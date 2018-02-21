@@ -38,7 +38,7 @@ public class PostalCode {
         if (!isValidPostalCode(trimmedPostalCode)) {
             throw new IllegalValueException(MESSAGE_POSTAL_CODE_CONSTRAINTS);
         }
-        this.value = trimmedPostalCode;
+        value = trimmedPostalCode;
     }
 
     /**
@@ -48,6 +48,10 @@ public class PostalCode {
         return test.matches(POSTAL_CODE_VALIDATION_REGEX);
     }
 
+
+    /**
+     * Retrieves address details from OneMap online database using 6-digit postal code as key.
+     */
     public String retrieveMatchingAddress() throws IOException {
         try {
             String lineFromURL = getOutputFromOnemapURL();
@@ -60,12 +64,18 @@ public class PostalCode {
         return MESSAGE_ERROR_ADDRESS_NOT_FOUND;
     }
 
+    /**
+     * Obtains output from OneMap URL.
+     */
     private String getOutputFromOnemapURL() throws IOException {
         InputStream is = getOnemapInputStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
         return br.readLine();
     }
 
+    /**
+     * Returns InputStream for given search string entered into OneMap through the HTML URL.
+     */
     private InputStream getOnemapInputStream() throws IOException {
         String urlString = ONEMAP_SEARCH_URL_FIRST_HALF + this.value + ONEMAP_SEARCH_URL_SECOND_HALF;
         URL url = new URL(urlString);
@@ -73,6 +83,9 @@ public class PostalCode {
         return connection.getInputStream();
     }
 
+    /**
+     * Parses output from OneMap to obtain address information and returns the address.
+     */
     private String getAddressFromUrlOutput(String lineFromURL) {
         int startIdx = 0, endIdx = 0;
         if (lineFromURL.contains("ADDRESS")) {
